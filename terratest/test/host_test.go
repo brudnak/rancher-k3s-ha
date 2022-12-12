@@ -49,8 +49,8 @@ func TestK3sHa(t *testing.T) {
 	assert.Equal(t, "valid", noneOneIPAddressValidationResult)
 	assert.Equal(t, "valid", nodeTwoIPAddressValidationResult)
 
-	actualHostNodeCount, _ := tools.SetupK3S(infra1MysqlPassword, infra1MysqlEndpoint, infra1RancherURL, infra1Server1IPAddress, infra1Server2IPAddress, "ha1")
-	actualTenantNodeCount, _ := tools.SetupK3S(infra2MysqlPassword, infra2MysqlEndpoint, infra2RancherURL, infra2Server1IPAddress, infra2Server2IPAddress, "ha2")
+	actualHostNodeCount, _ := tools.SetupK3S(infra1MysqlPassword, infra1MysqlEndpoint, infra1RancherURL, infra1Server1IPAddress, infra1Server2IPAddress, viper.GetString("rancher_reproduction.email"), viper.GetString("rancher_reproduction.bootstrap_password"), viper.GetString("rancher_reproduction.version"), viper.GetString("rancher_reproduction.image_tag"), viper.GetString("rancher_reproduction.k3s_version"), "ha1")
+	actualTenantNodeCount, _ := tools.SetupK3S(infra2MysqlPassword, infra2MysqlEndpoint, infra2RancherURL, infra2Server1IPAddress, infra2Server2IPAddress, viper.GetString("rancher_head.email"), viper.GetString("rancher_head.bootstrap_password"), viper.GetString("rancher_head.version"), viper.GetString("rancher_head.image_tag"), viper.GetString("rancher_head.k3s_version"), "ha2")
 
 	expectedNodeCount := 2
 

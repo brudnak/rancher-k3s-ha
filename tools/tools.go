@@ -30,9 +30,7 @@ func (t *Tools) RandomString(n int) string {
 	return string(s)
 }
 
-func (t *Tools) SetupK3S(mysqlPassword string, mysqlEndpoint string, rancherURL string, node1IP string, node2IP string, rancherType string) (int, string) {
-
-	k3sVersion := viper.GetString("k3s.version")
+func (t *Tools) SetupK3S(mysqlPassword string, mysqlEndpoint string, rancherURL string, node1IP string, node2IP string, rancherEmail string, rancherBsPw string, rancherVersion string, rancherImage string, k3sVersion string, rancherType string) (int, string) {
 
 	nodeOneCommand := fmt.Sprintf(`curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION='%s' sh -s - server --token=SECRET --datastore-endpoint='mysql://tfadmin:%s@tcp(%s)/k3s' --tls-san %s --node-external-ip %s`, k3sVersion, mysqlPassword, mysqlEndpoint, rancherURL, node1IP)
 
@@ -75,7 +73,7 @@ func (t *Tools) SetupK3S(mysqlPassword string, mysqlEndpoint string, rancherURL 
 		log.Fatal("expecting either ha1 or ha2 for rancher type")
 	}
 
-	tfvarFile := fmt.Sprintf("rancher_url = \"%s\"\nbootstrap_password = \"%s\"\nemail = \"%s\"\nrancher_version = \"%s\"\nimage_tag = \"%s\"", rancherURL, viper.GetString("rancher.bootstrap_password"), viper.GetString("rancher.email"), viper.GetString("rancher.version"), viper.GetString("rancher.image_tag"))
+	tfvarFile := fmt.Sprintf("rancher_url = \"%s\"\nbootstrap_password = \"%s\"\nemail = \"%s\"\nrancher_version = \"%s\"\nimage_tag = \"%s\"", rancherURL, rancherBsPw, rancherEmail, rancherVersion, rancherImage)
 	tfvarFileBytes := []byte(tfvarFile)
 
 	if rancherType == "ha1" {
