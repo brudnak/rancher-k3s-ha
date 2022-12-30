@@ -9,7 +9,7 @@ terraform {
 
 provider "helm" {
   kubernetes {
-    config_path = "../../../../ha1.yml"
+    config_path = "../../../../ha1-repro.yml"
   }
 }
 
@@ -64,6 +64,28 @@ resource "helm_release" "rancher" {
     name  = "letsEncrypt.ingress.class"
     value = "traefik"
   }
+
+    set {
+      name  = "livenessProbe.initialDelaySeconds"
+      value = "42"
+    }
+
+      set {
+        name  = "livenessProbe.periodSeconds"
+        value = "19"
+      }
+
+      set {
+        name  = "readinessProbe.initialDelaySeconds"
+        value = "14"
+      }
+
+      set {
+        name  = "readinessProbe.periodSeconds"
+        value = "89"
+      }
+
+
 
   # wait for certs to be installed first
   depends_on = [

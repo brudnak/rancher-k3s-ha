@@ -9,7 +9,7 @@ terraform {
 
 provider "helm" {
   kubernetes {
-    config_path = "../../../../ha2.yml"
+    config_path = "../../../../ha3-extra.yml"
   }
 }
 

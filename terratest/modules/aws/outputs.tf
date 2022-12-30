@@ -42,3 +42,25 @@ output "infra2_mysql_password" {
 output "infra2_rancher_url" {
   value = module.high-availability-infrastructure-2.rancher_url
 }
+
+// Infrastructure 3 section
+output "infra3_server1_ip" {
+  value = module.high-availability-infrastructure-3.server1_ip
+}
+
+output "infra3_server2_ip" {
+  value = module.high-availability-infrastructure-3.server2_ip
+}
+
+output "infra3_mysql_endpoint" {
+  value = module.high-availability-infrastructure-3.mysql_endpoint
+}
+
+output "infra3_mysql_password" {
+  value = module.high-availability-infrastructure-3.mysql_password
+  sensitive = true
+}
+
+output "infra3_rancher_url" {
+  value = module.high-availability-infrastructure-3.rancher_url
+}

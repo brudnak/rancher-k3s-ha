@@ -59,37 +59,48 @@ func (t *Tools) SetupK3S(mysqlPassword string, mysqlEndpoint string, rancherURL 
 	configIP := fmt.Sprintf("https://%s:6443", node1IP)
 	output := bytes.Replace(kubeConf, []byte("https://127.0.0.1:6443"), []byte(configIP), -1)
 
-	if rancherType == "ha1" {
-		err = os.WriteFile("../../ha1.yml", output, 0644)
+	if rancherType == "ha1-repro" {
+		err = os.WriteFile("../../ha1-repro.yml", output, 0644)
 		if err != nil {
-			log.Println("failed creating ha1 config:", err)
+			log.Println("failed creating ha1-repro config:", err)
 		}
-	} else if rancherType == "ha2" {
-		err = os.WriteFile("../../ha2.yml", output, 0644)
+	} else if rancherType == "ha2-valid" {
+		err = os.WriteFile("../../ha2-valid.yml", output, 0644)
 		if err != nil {
-			log.Println("failed creating ha2 config:", err)
+			log.Println("failed creating ha2-valid config:", err)
+		}
+	} else if rancherType == "ha3-extra" {
+		err = os.WriteFile("../../ha3-extra.yml", output, 0644)
+		if err != nil {
+			log.Println("failed creating ha3-extra config:", err)
 		}
 	} else {
-		log.Fatal("expecting either ha1 or ha2 for rancher type")
+		log.Fatal("expecting either ha1-repro or ha2-valid for rancher type")
 	}
 
 	tfvarFile := fmt.Sprintf("rancher_url = \"%s\"\nbootstrap_password = \"%s\"\nemail = \"%s\"\nrancher_version = \"%s\"\nimage_tag = \"%s\"", rancherURL, rancherBsPw, rancherEmail, rancherVersion, rancherImage)
 	tfvarFileBytes := []byte(tfvarFile)
 
-	if rancherType == "ha1" {
-		err = os.WriteFile("../modules/helm/ha1/terraform.tfvars", tfvarFileBytes, 0644)
+	if rancherType == "ha1-repro" {
+		err = os.WriteFile("../modules/helm/ha1-repro/terraform.tfvars", tfvarFileBytes, 0644)
 
 		if err != nil {
-			log.Println("failed creating ha1 tfvars:", err)
+			log.Println("failed creating ha1-repro tfvars:", err)
 		}
-	} else if rancherType == "ha2" {
-		err = os.WriteFile("../modules/helm/ha2/terraform.tfvars", tfvarFileBytes, 0644)
+	} else if rancherType == "ha2-valid" {
+		err = os.WriteFile("../modules/helm/ha2-valid/terraform.tfvars", tfvarFileBytes, 0644)
 
 		if err != nil {
-			log.Println("failed creating ha2 tfvars:", err)
+			log.Println("failed creating ha2-valid tfvars:", err)
+		}
+	} else if rancherType == "ha3-extra" {
+		err = os.WriteFile("../modules/helm/ha3-extra/terraform.tfvars", tfvarFileBytes, 0644)
+
+		if err != nil {
+			log.Println("failed creating ha3-extra tfvars:", err)
 		}
 	} else {
-		log.Fatal("expecting either ha1 or ha2 for rancher type")
+		log.Fatal("expecting either ha1-repro or ha2-valid for rancher type")
 	}
 
 	return actualNodeCount, configIP

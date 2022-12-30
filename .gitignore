@@ -314,5 +314,6 @@ terraform.tfstate*
 var.auto.tfvars
 config
 config.yml
-ha1.yml
-ha2.yml
+ha1-repro.yml
+ha2-valid.yml
+ha3-extra.yml
