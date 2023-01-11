@@ -27,7 +27,7 @@ provider "aws" {
 resource "aws_instance" "aws_instance" {
   count                  = 2
   ami                    = var.aws_ami
-  instance_type          = "m5.large"
+  instance_type          = "t3.xlarge"
   subnet_id              = var.aws_subnet_id
   vpc_security_group_ids = [var.aws_security_group_id]
   key_name               = var.aws_pem_key_name
@@ -140,7 +140,7 @@ resource "aws_rds_cluster_instance" "aws_rds_cluster_instance" {
   count              = 1
   identifier         = "${var.aws_prefix}-${random_pet.random_pet_rds.id}-${count.index}"
   cluster_identifier = aws_rds_cluster.aws_rds_cluster.id
-  instance_class     = "db.t4g.large"
+  instance_class     = "db.t3.small"
   engine             = aws_rds_cluster.aws_rds_cluster.engine
   engine_version     = aws_rds_cluster.aws_rds_cluster.engine_version
 }
